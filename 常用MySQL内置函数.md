@@ -475,7 +475,7 @@ root@localhost : wing 05:37:58> select lower('MySQL');
 ```
 
 ##### LEFT(str,len) && RIGHT(str,len)
-分别为返回从左边开始返回str第len个字母，从右边开始返回str第len个字母  
+分别为返回从左边开始返回str第len个字母,从右边开始返回str第len个字母  
 
 ```sql
 root@localhost : wing 05:41:08> select left('MySQL',1),RIGHT('MySQL',1);
@@ -634,7 +634,7 @@ root@localhost : wing 06:16:11> select UCASE('python'),UPPER('python');
 数值函数
 --------
 ##### CEIL() & CEILING()
-两者功能相同，返回比给出的参数大的最小的整数。  
+两者功能相同,返回比给出的参数大的最小的整数。  
 
 ```sql
 root@localhost : wing 04:18:06> select ceil(9.99);
@@ -687,7 +687,7 @@ root@localhost : wing 04:18:36> select ceiling(-9.99);
 ```
 
 ##### CRC32()
-用于循环冗余校验，返回一个32位无符号数值，是对一个传送的数据块进行校验，是一种高效的差错控制方法。  
+用于循环冗余校验,返回一个32位无符号数值,是对一个传送的数据块进行校验,是一种高效的差错控制方法。  
 
 ```sql
 root@localhost : wing 04:21:43> select crc32('MySQL');
@@ -745,7 +745,7 @@ root@localhost : wing 04:41:47> select floor(-1.23);
 ```
 
 ##### POW(x,y) && POWER(x,y)
-两者功能相同，求x的y次方  
+两者功能相同,求x的y次方  
 
 ```sql
 root@localhost : wing 04:49:54> select power(2,4);
@@ -758,11 +758,10 @@ root@localhost : wing 04:49:54> select power(2,4);
 ```
 
 ##### RAND() && RAND(N)
-1. 不论是同一个事务中还是非同一个事务中,包含RAND()函数的SQL语句之前都会记录两个会话级的参数RAND_SEED1和RAND_SEED2，由这两个参数根据RAND()产生随机数的算法便可得到一个确定的数值，所以即使在binlog_format=STATEMENT模式下，主从复制之间使用RAND()函数也可以确保数据一致;  
+1. 不论是同一个事务中还是非同一个事务中,包含RAND()函数的SQL语句之前都会记录两个会话级的参数RAND_SEED1和RAND_SEED2,由这两个参数根据RAND()产生随机数的算法便可得到一个确定的数值,所以即使在binlog_format=STATEMENT模式下,主从复制之间使用RAND()函数也可以确保数据一致;  
 http://puppetfans.vicp.cc:8090/pages/viewpage.action?pageId=4718827  
 2. RAND()函数为产生随机数在[0,1)之间;  
-3. 对于RAND(N),参数N用作种子值,种子值即binlog日志中RAND_SEED1和RAND_SEED2,产生相同的随机数。  
-4. 
+3. 对于RAND(N),参数N用作种子值,种子值即binlog日志中RAND_SEED1和RAND_SEED2,产生相同的随机数;  
 
 ```sql
 root@localhost : wing 05:08:51> select * from rand_data;
@@ -775,7 +774,7 @@ root@localhost : wing 05:08:51> select * from rand_data;
 +------+
 3 rows in set (0.00 sec)
 
-# 在如下示例中可观察到，rand()的函数产生的随机数随机改变，rand(n)的函数产生的随机数是确定值
+# 在如下示例中可观察到,rand()的函数产生的随机数随机改变,rand(n)的函数产生的随机数是确定值
 root@localhost : wing 05:08:58> select id , rand() from rand_data;
 +------+---------------------+
 | id   | rand()              |
@@ -816,6 +815,103 @@ root@localhost : wing 05:09:21> select id , rand(1) from rand_data;
 +------+---------------------+
 3 rows in set (0.00 sec)
 ```
+
+4. 对于想获得在指定范围内的随机数,可以通过不同的函数构造得到。  
+
+```sql
+# 获得7到12之间的随机整数
+root@localhost : wing 05:43:44> select floor(7+rand()*5);
++-------------------+
+| floor(7+rand()*5) |
++-------------------+
+|                 7 |
++-------------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 05:43:50> select floor(7+rand()*5);
++-------------------+
+| floor(7+rand()*5) |
++-------------------+
+|                 9 |
++-------------------+
+1 row in set (0.00 sec)
+```
+
+##### ROUND(X),ROUND(X,D)
+将参数X四舍五入到指定的对应的D精度的值,如果D没有指定,则默认为0。  
+
+```sql
+
+root@localhost : wing 05:50:05> select round(2.34);
++-------------+
+| round(2.34) |
++-------------+
+|           2 |
++-------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 05:50:08> select round(2.78);
++-------------+
+| round(2.78) |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 05:50:11> select round(2.34,1);
++---------------+
+| round(2.34,1) |
++---------------+
+|           2.3 |
++---------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 05:50:17> select round(2.78,1);
++---------------+
+| round(2.78,1) |
++---------------+
+|           2.8 |
++---------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 05:50:24> select round(2.5,0);
++--------------+
+| round(2.5,0) |
++--------------+
+|            3 |
++--------------+
+1 row in set (0.00 sec)
+```
+
+##### SIGN()
+返回参数的符号,-1代表负数,0代表0,1代表正数。  
+
+```sql
+root@localhost : wing 05:52:04> select sign(-123);
++------------+
+| sign(-123) |
++------------+
+|         -1 |
++------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 05:57:51> select sign(0);
++---------+
+| sign(0) |
++---------+
+|       0 |
++---------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 05:57:54> select sign(123);
++-----------+
+| sign(123) |
++-----------+
+|         1 |
++-----------+
+1 row in set (0.00 sec)
+```
+
 
 
 
