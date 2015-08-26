@@ -759,7 +759,6 @@ root@localhost : wing 04:49:54> select power(2,4);
 
 ##### RAND() && RAND(N)
 1. 不论是同一个事务中还是非同一个事务中,包含RAND()函数的SQL语句之前都会记录两个会话级的参数RAND_SEED1和RAND_SEED2,由这两个参数根据RAND()产生随机数的算法便可得到一个确定的数值,所以即使在binlog_format=STATEMENT模式下,主从复制之间使用RAND()函数也可以确保数据一致;  
-http://puppetfans.vicp.cc:8090/pages/viewpage.action?pageId=4718827  
 2. RAND()函数为产生随机数在[0,1)之间;  
 3. 对于RAND(N),参数N用作种子值,种子值即binlog日志中RAND_SEED1和RAND_SEED2,产生相同的随机数;  
 
