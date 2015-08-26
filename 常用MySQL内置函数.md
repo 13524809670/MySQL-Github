@@ -911,9 +911,50 @@ root@localhost : wing 05:57:54> select sign(123);
 1 row in set (0.00 sec)
 ```
 
+##### SQRT()
+平方根函数  
 
+```sql
+root@localhost : wing 09:18:43> select sqrt(16);
++----------+
+| sqrt(16) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 09:18:49> select sqrt(-16);
++-----------+
+| sqrt(-16) |
++-----------+
+|      NULL |
++-----------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 09:18:51> select sqrt(null);
++------------+
+| sqrt(null) |
++------------+
+|       NULL |
++------------+
+1 row in set (0.00 sec)
+```
+
+##### TRUNCATE(X,D)
+对参数X取D精度的值,其后的值将都被截取掉。  
+
+```sql
+root@localhost : wing 09:20:48> select truncate(1.7699,2);
++--------------------+
+| truncate(1.7699,2) |
++--------------------+
+|               1.76 |
++--------------------+
+1 row in set (0.00 sec)
+```
+
+时间类型函数
+------------
 
 
 
