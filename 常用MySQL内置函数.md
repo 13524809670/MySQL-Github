@@ -1098,6 +1098,245 @@ root@localhost : wing 11:11:40> select date_add('2015-01-25 00:00:00', interval 
 1 row in set (0.00 sec)
 ```
 
+##### DATE_DORMAT(date,format)
+将日期以指定的format返回。  
+关于format的形式，详情见：http://dev.mysql.com/doc/refman/5.6/en/date-and-time-functions.html#function_date-format  
+
+```sql
+root@localhost : wing 11:22:35> select date_format('2015-01-25','%W %M %Y');
++--------------------------------------+
+| date_format('2015-01-25','%W %M %Y') |
++--------------------------------------+
+| Sunday January 2015                  |
++--------------------------------------+
+1 row in set (0.00 sec)
+```
+
+##### DAYNAME(date)
+返回星期几。
+
+```sql
+root@localhost : wing 11:26:16> select dayname('2015-01-25');
++-----------------------+
+| dayname('2015-01-25') |
++-----------------------+
+| Sunday                |
++-----------------------+
+1 row in set (0.00 sec)
+```
+
+##### DAYOFMONTH() & DAYOFWEEK & DAYOFYEAR() 
+DAYOFMONTH()：返回日期在这个月的第多少天  
+DAYOFWEEK()：返回日期在这个星期的第多少天，星期天为第一天  
+DAYOFYEAR()：返回日期在这一年的第多少天  
+
+```sql
+root@localhost : wing 11:33:22> select dayofmonth('2015-02-14');
++--------------------------+
+| dayofmonth('2015-02-14') |
++--------------------------+
+|                       14 |
++--------------------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 11:34:30> select dayofweek('2015-01-25');
++-------------------------+
+| dayofweek('2015-01-25') |
++-------------------------+
+|                       1 |
++-------------------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 11:35:41> select dayofyear('2015-02-14');
++-------------------------+
+| dayofyear('2015-02-14') |
++-------------------------+
+|                      45 |
++-------------------------+
+1 row in set (0.00 sec)
+```
+
+##### from_days(N)
+根据数值N换算出日期，开始日期为：0001-01-01
+
+```sql
+root@localhost : wing 12:01:34> SELECT FROM_DAYS(365);
++----------------+
+| FROM_DAYS(365) |
++----------------+
+| 0000-00-00     |
++----------------+
+1 row in set (0.00 sec)
+
+# from_days从这个日期开始记起，从N=366开始有效
+root@localhost : wing 12:01:36> SELECT FROM_DAYS(366);
++----------------+
+| FROM_DAYS(366) |
++----------------+
+| 0001-01-01     |
++----------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 12:01:39> SELECT FROM_DAYS(367);
++----------------+
+| FROM_DAYS(367) |
++----------------+
+| 0001-01-02     |
++----------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 12:02:35> SELECT FROM_DAYS(3670);
++-----------------+
+| FROM_DAYS(3670) |
++-----------------+
+| 0010-01-18      |
++-----------------+
+1 row in set (0.00 sec)
+```
+
+##### from_unixtime()
+FROM_UNIXTIME(unix_timestamp)  
+FROM_UNIXTIME(unix_timestamp,format)  
+将数值转换为时间
+
+```sql
+root@localhost : wing 12:05:32> select from_unixtime(0);
++---------------------+
+| from_unixtime(0)    |
++---------------------+
+| 1970-01-01 08:00:00 |
++---------------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 12:05:37> select from_unixtime(125);
++---------------------+
+| from_unixtime(125)  |
++---------------------+
+| 1970-01-01 08:02:05 |
++---------------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 12:05:48> select from_unixtime(125,'%W');
++-------------------------+
+| from_unixtime(125,'%W') |
++-------------------------+
+| Thursday                |
++-------------------------+
+1 row in set (0.00 sec)
+```
+
+##### get_format()
+以指定的格式输出时间  
+关于格式请见：http://dev.mysql.com/doc/refman/5.6/en/date-and-time-functions.html#function_get-format  
+
+```sql
+root@localhost : wing 01:17:58> SELECT DATE_FORMAT('2015-01-25',GET_FORMAT(DATE,'EUR'));
++--------------------------------------------------+
+| DATE_FORMAT('2015-01-25',GET_FORMAT(DATE,'EUR')) |
++--------------------------------------------------+
+| 25.01.2015                                       |
++--------------------------------------------------+
+1 row in set (0.00 sec)
+
+# get_format()函数不可单独使用
+root@localhost : wing 01:18:20> select GET_format('2015-01-25','EUR');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''2015-01-25','EUR')' at line 1
+
+root@localhost : wing 01:19:41>  SELECT DATE_FORMAT('2015-01-25 00:00:00',GET_FORMAT(DATE,'EUR'));
++-----------------------------------------------------------+
+| DATE_FORMAT('2015-01-25 00:00:00',GET_FORMAT(DATE,'EUR')) |
++-----------------------------------------------------------+
+| 25.01.2015                                                |
++-----------------------------------------------------------+
+1 row in set (0.00 sec)
+```
+
+##### HOUR(time)
+返回时间的小时数，它可以超过23。  
+
+```sql
+root@localhost : wing 01:23:51> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2015-08-27 13:24:00 |
++---------------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 01:24:00> select hour(now());
++-------------+
+| hour(now()) |
++-------------+
+|          13 |
++-------------+
+1 row in set (0.00 sec)
+
+root@localhost : wing 01:24:27> select hour('356:24:24');
++-------------------+
+| hour('356:24:24') |
++-------------------+
+|               356 |
++-------------------+
+1 row in set (0.00 sec)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
