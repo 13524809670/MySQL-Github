@@ -991,7 +991,7 @@ root@localhost : wing 10:40:21> select now(),addtime(now(),'1 1:1:1');
 ```
 
 ##### CONVERT_TZ(dt,from_tz,to_tz)
-将dt从from_tz的时区转换到to_tz的时区，在该函数中，dt会被认为from_tz时区的时间值。  
+将dt从from_tz的时区转换到to_tz的时区,在该函数中,dt会被认为from_tz时区的时间值。  
 
 ```sql
 root@localhost : wing 10:47:37> select now(),convert_tz(now(),'+08:00','+00:00'),convert_tz(now(),'+02:00','+00:00'),convert_tz(now(),'+02:00','-02:00');
@@ -1100,7 +1100,7 @@ root@localhost : wing 11:11:40> select date_add('2015-01-25 00:00:00', interval 
 
 ##### DATE_DORMAT(date,format)
 将日期以指定的format返回。  
-关于format的形式，详情见：http://dev.mysql.com/doc/refman/5.6/en/date-and-time-functions.html#function_date-format  
+关于format的形式,详情见：http://dev.mysql.com/doc/refman/5.6/en/date-and-time-functions.html#function_date-format  
 
 ```sql
 root@localhost : wing 11:22:35> select date_format('2015-01-25','%W %M %Y');
@@ -1127,7 +1127,7 @@ root@localhost : wing 11:26:16> select dayname('2015-01-25');
 
 ##### DAYOFMONTH() & DAYOFWEEK & DAYOFYEAR() 
 DAYOFMONTH()：返回日期在这个月的第多少天  
-DAYOFWEEK()：返回日期在这个星期的第多少天，星期天为第一天  
+DAYOFWEEK()：返回日期在这个星期的第多少天,星期天为第一天  
 DAYOFYEAR()：返回日期在这一年的第多少天  
 
 ```sql
@@ -1157,7 +1157,7 @@ root@localhost : wing 11:35:41> select dayofyear('2015-02-14');
 ```
 
 ##### from_days(N)
-根据数值N换算出日期，开始日期为：0001-01-01
+根据数值N换算出日期,开始日期为：0001-01-01
 
 ```sql
 root@localhost : wing 12:01:34> SELECT FROM_DAYS(365);
@@ -1168,7 +1168,7 @@ root@localhost : wing 12:01:34> SELECT FROM_DAYS(365);
 +----------------+
 1 row in set (0.00 sec)
 
-# from_days从这个日期开始记起，从N=366开始有效
+# from_days从这个日期开始记起,从N=366开始有效
 root@localhost : wing 12:01:36> SELECT FROM_DAYS(366);
 +----------------+
 | FROM_DAYS(366) |
@@ -1252,7 +1252,7 @@ root@localhost : wing 01:19:41>  SELECT DATE_FORMAT('2015-01-25 00:00:00',GET_FO
 ```
 
 ##### HOUR(time)
-返回时间的小时数，它可以超过23。  
+返回时间的小时数,它可以超过23。  
 
 ```sql
 root@localhost : wing 01:23:51> select now();
@@ -1280,48 +1280,275 @@ root@localhost : wing 01:24:27> select hour('356:24:24');
 1 row in set (0.00 sec)
 ```
 
+##### LAST_DAY(date)
+返回date所在月份的最后一天日期。  
 
+```sql
+root@localhost : wing 01:48:06> select last_day('2015-01-25');
++------------------------+
+| last_day('2015-01-25') |
++------------------------+
+| 2015-01-31             |
++------------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 01:48:23> select last_day('2015-02-02');
++------------------------+
+| last_day('2015-02-02') |
++------------------------+
+| 2015-02-28             |
++------------------------+
+1 row in set (0.00 sec)
+```
 
+##### MAKEDATE() & MAKETIME()
+MAKEDATE(year,dayofyear)：year为年份,dayofyear为一年天数  
+MAKETIME(hour,minute,second)  
 
+```sql
+root@localhost : wing 01:48:29> select makedate(2015,35);
++-------------------+
+| makedate(2015,35) |
++-------------------+
+| 2015-02-04        |
++-------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 01:52:37> select maketime(13,25,25);
++--------------------+
+| maketime(13,25,25) |
++--------------------+
+| 13:25:25           |
++--------------------+
+1 row in set (0.00 sec)
+```
 
+##### MICROSECOND() & MINUTE() & MONTH() & SECOND() & TIME()
+分别为返回时间的微秒,分钟,月份,秒数,时间。  
 
+##### MONTHNAME(date)
+返回date的月份值  
 
+##### NOW()
+返回语句执行时的日期+时间。  
+now()在同一个语句中时间是一致的。  
 
+```sql
+root@localhost : wing 01:56:49> select now(),sleep(2),now();
++---------------------+----------+---------------------+
+| now()               | sleep(2) | now()               |
++---------------------+----------+---------------------+
+| 2015-08-27 13:57:00 |        0 | 2015-08-27 13:57:00 |
++---------------------+----------+---------------------+
+1 row in set (2.00 sec)
+```
 
+##### SEC_TO_TIME(seconds)
+将seconds计算为时分秒返回。  
 
+```sql
+root@localhost : wing 01:57:02> select sec_to_time(125);
++------------------+
+| sec_to_time(125) |
++------------------+
+| 00:02:05         |
++------------------+
+1 row in set (0.00 sec)
+```
 
+##### STR_TO_DATE(str,format)
+将str以format的形式返回一个时间值。  
 
+```sql
+root@localhost : wing 02:01:40> select str_to_date('25,01,2015','%Y,%m,%d');
++--------------------------------------+
+| str_to_date('25,01,2015','%Y,%m,%d') |
++--------------------------------------+
+| 2025-01-20                           |
++--------------------------------------+
+1 row in set, 1 warning (0.00 sec)
 
+Warning (Code 1292): Truncated incorrect date value: '25,01,2015'
+root@localhost : wing 02:01:49> select str_to_date('2015,01,25','%Y,%m,%d');
++--------------------------------------+
+| str_to_date('2015,01,25','%Y,%m,%d') |
++--------------------------------------+
+| 2015-01-25                           |
++--------------------------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 02:02:04> select str_to_date('2015,1,2.5','%Y,%m,%d');
++--------------------------------------+
+| str_to_date('2015,1,2.5','%Y,%m,%d') |
++--------------------------------------+
+| 2015-01-02                           |
++--------------------------------------+
+1 row in set, 1 warning (0.00 sec)
+```
 
+##### SUBDATE() & SUBTIME()
+SUBDATE()：将日期减少时间间隔后,返回时间值  
+SUBDATE(date,INTERVAL expr unit)  
+SUBDATE(expr,days)  
+SUBTIME()：将时间减少时间间隔后,返回时间值  
+SUBTIME(expr1,expr2)  
 
+```sql
+root@localhost : wing 02:08:20> select subdate(now(),5),subdate(now(),interval 5 hour),subtime(now(),'2015-01-25 00:00:00');
++---------------------+--------------------------------+--------------------------------------+
+| subdate(now(),5)    | subdate(now(),interval 5 hour) | subtime(now(),'2015-01-25 00:00:00') |
++---------------------+--------------------------------+--------------------------------------+
+| 2015-08-22 14:08:33 | 2015-08-27 09:08:33            | NULL                                 |
++---------------------+--------------------------------+--------------------------------------+
+1 row in set (0.00 sec)
+```
 
+##### SYSDATE([fsp])
+返回SYSDATE()执行时的时间值。  
+当使用--sysdate-is-now时,sysdate()与now()一样,否则存在不同,不同之处见举例。  
 
+```sql
+# 以下均在未使用--sysdate-is-now时
+root@localhost : wing 02:13:49> select now(),sysdate(),sleep(2),now(),sysdate();
++---------------------+---------------------+----------+---------------------+---------------------+
+| now()               | sysdate()           | sleep(2) | now()               | sysdate()           |
++---------------------+---------------------+----------+---------------------+---------------------+
+| 2015-08-27 14:14:44 | 2015-08-27 14:14:44 |        0 | 2015-08-27 14:14:44 | 2015-08-27 14:14:46 |
++---------------------+---------------------+----------+---------------------+---------------------+
+1 row in set (2.00 sec)
 
+# 如上可见,now()值是相同的,因为now()是指语句开始执行时的时间值,sysdate()是不同的,因为sysdate()指的是执行sysdate时的时间值。
+```
 
+##### TIMEDIFF(expr1,expr2)
+返回expr1-expr2之间的差值时间。  
 
+```sql
+root@localhost : wing 02:20:02> select timediff(time(now()),'08:55:00');
++----------------------------------+
+| timediff(time(now()),'08:55:00') |
++----------------------------------+
+| 05:25:18                         |
++----------------------------------+
+1 row in set (0.00 sec)
+```
 
+##### TIMESTAMP() & TIMESTAMPADD() & TIMESTAMPDIFF()
 
+##### TO_DAYS() & TO_SECONDS()
+TO_DAYS()：返回日期的天数,开始日期为0000-00-00  
+TO_SECONDS()：返回日期的秒数,开始日期为0000-00-00  
 
+```sql
+root@localhost : wing 02:25:47> select to_days('0000-01-01');
++-----------------------+
+| to_days('0000-01-01') |
++-----------------------+
+|                     1 |
++-----------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 02:25:53> select to_days('2015-01-25');
++-----------------------+
+| to_days('2015-01-25') |
++-----------------------+
+|                735988 |
++-----------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 02:26:02> select to_seconds('2015-01-25');
++--------------------------+
+| to_seconds('2015-01-25') |
++--------------------------+
+|              63589363200 |
++--------------------------+
+1 row in set (0.00 sec)
+```
 
+##### UNIX_TIMESTAMP([date])
+返回unix timestamp值，从'1970-01-01 00:00:00'UTC时区的时间值开始。  
 
+```sql
+root@localhost : wing 02:28:22> select unix_timestamp('2015-01-25 00:00:00');
++---------------------------------------+
+| unix_timestamp('2015-01-25 00:00:00') |
++---------------------------------------+
+|                            1422115200 |
++---------------------------------------+
+1 row in set (0.00 sec)
+```
 
+##### UTC_DATE & UTC_DATE() & UTC_TIME & UTC_TIME() & UTC_TIMESTAMP & UTC_TIMESTAMP()
+将日期或时间以UTC时区返回。  
 
+```sql
+root@localhost : wing 02:31:31> select utc_date();
++------------+
+| utc_date() |
++------------+
+| 2015-08-27 |
++------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 02:32:51> select utc_timestamp();
++---------------------+
+| utc_timestamp()     |
++---------------------+
+| 2015-08-27 06:32:57 |
++---------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 02:32:57> select now(),utc_timestamp();
++---------------------+---------------------+
+| now()               | utc_timestamp()     |
++---------------------+---------------------+
+| 2015-08-27 14:33:10 | 2015-08-27 06:33:10 |
++---------------------+---------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 02:33:10> select utc_timestamp;
++---------------------+
+| utc_timestamp       |
++---------------------+
+| 2015-08-27 06:34:10 |
++---------------------+
+1 row in set (0.00 sec)
 
+root@localhost : wing 02:34:10> select time(now()),utc_time;
++-------------+----------+
+| time(now()) | utc_time |
++-------------+----------+
+| 14:35:58    | 06:35:58 |
++-------------+----------+
+1 row in set (0.00 sec)
+```
 
+##### WEEK(date[,mode])
+返回date在这一年的第几周。  
+关于mode,详见：http://dev.mysql.com/doc/refman/5.6/en/date-and-time-functions.html#function_week
 
+```sql
+root@localhost : wing 02:35:58> select week(date(now()));
++-------------------+
+| week(date(now())) |
++-------------------+
+|                34 |
++-------------------+
+1 row in set (0.00 sec)
+```
 
+##### WEEKDAY(date)
+查看date是星期几。(0表示星期一，1表示星期二....)  
 
-
-
-
+```sql
+root@localhost : wing 02:38:15> select weekday(date(now()));
++----------------------+
+| weekday(date(now())) |
++----------------------+
+|                    3 |
++----------------------+
+1 row in set (0.00 sec)
+```
 
 
 
