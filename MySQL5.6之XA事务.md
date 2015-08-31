@@ -1,5 +1,6 @@
 MySQL5.6之XA事务
 ================
+XA事务即分布式事务。
 
 XA事务SQL语句
 -------------
@@ -110,3 +111,16 @@ root@localhost : wing 02:54:24> xa start 'xa2';
 Query OK, 0 rows affected (0.00 sec)
 ```
 3. 当事务处于active时,不能发出任何导致隐式提交的语句。(此处隐式提交的语句与常规事务的隐式提交语句一致)  
+
+XA事务的限制
+------------
+1. XA事务仅适用于Innodb存储引擎;  
+2. XA START语句不支持JOIN/RESUME语句;  
+3. XA END语句不支持SUSPEND [FOR MIGRATE]语句;  
+4. 当XA事务在prepared阶段时,此时MySQL Server宕机，该事物可以在服务器重启后继续执行，然而客户端重连后，即使事务已经提交，但是它并不会记录到binlog中，这将导致主从复制不一致。  
+
+
+
+
+
+
