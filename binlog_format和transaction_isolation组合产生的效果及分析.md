@@ -14,7 +14,6 @@ WHY NO
 （以测试的INSERT、UPDATE、DELETE语句为例）  
 1. STATEMENT + READ UNCOMMITTED  
 INSERT、UPDATE、DELETE语句无法写入二进制日志中，进而导致主库上无法执行该类型语句。  
-
 2. STATEMENT + READ COMMITED  
 INSERT、UPDATE、DELETE语句无法写入二进制日志中，进而导致主库上无法执行该类型语句。  
 
