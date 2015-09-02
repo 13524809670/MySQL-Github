@@ -4,7 +4,7 @@ binlog_format和transaction_isolation组合产生的效果及分析
 
 组合产生的效果
 ----------------------
-![](E:\MDimages/binlog_format&transaction_isolation.png)
+![](https://github.com/wing324/MySQL-Github/blob/master/image/binlog_format%26transaction_isolation.png)
 
 YES 代表支持binlog_format+transaction_isolation组合  
 NO 代表不支持binlog_format+transaction_isolation组合  
@@ -27,7 +27,7 @@ If you are using InnoDB tables and the transaction isolation level is READ CO
 测试
 ------
 以READ COMMITED为例，假设STATEMENT模式下能写入二进制日志中。  
-![](E:\MDimages/binlog_format&transaction_isolation_test.png)
+![](https://github.com/wing324/MySQL-Github/blob/master/image/binlog_format%26transaction_isolation_test.png)
 
 分析：  
 如上，在主库上执行一次如上操作，二进制日志记录SQL语句的方式为commit之后写入二进制日志中。  
@@ -68,7 +68,7 @@ select * from t2;
 commit;  
 
 此时对比主库与从库的t2表：  
-![](E:\MDimages/binlog_format&transaction_isolation_test01.png)
+![](https://github.com/wing324/MySQL-Github/blob/master/image/binlog_format%26transaction_isolation_test01.png)
 
 由此可见数据不一致现象，read uncommitted+statement同理可得。  
 
