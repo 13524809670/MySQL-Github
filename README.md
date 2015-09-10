@@ -11,3 +11,4 @@ binlog_format和transaction_isolation组合产生的效果及分析.md
 LOCK TABLES & TRIGGER那些事.md  
 VARCHAR(N)和CHAR(N)的区别和优化.md  
 MySQL5.6之特别的RAND()函数.md  
+关于MySQL异常捕捉那些事儿.md  
