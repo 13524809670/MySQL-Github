@@ -109,7 +109,7 @@ A. 异常处理方式为CONTINUE
 存储过程示例：  
 ![](https://github.com/wing324/MySQL-Github/blob/master/image/MySQL_exception7.png)  
 
-存储过程结果：
+存储过程结果：  
 ![](https://github.com/wing324/MySQL-Github/blob/master/image/MySQL_exception8.png)  
 
 结果分析：  
