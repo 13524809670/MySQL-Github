@@ -105,6 +105,7 @@ B. 实战演练以存储过程为示例；
 C. 示例中的异常触发条件为：SELECT * FROM t;在执行示例的数据库中并不存在t表。  
 
 2. 实战演练  
+
 A. 异常处理方式为CONTINUE  
 存储过程示例：  
 ![](https://github.com/wing324/MySQL-Github/blob/master/image/MySQL_exception7.png)  
